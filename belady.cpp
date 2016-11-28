@@ -1,16 +1,16 @@
 #include <iostream>
 #include <queue>
-#include <vector>
+#include <deque>
 #include <random>
 #include <thread>
 #include <time.h>
 
-std::vector<std::vector<int> > generateRandomPageSequence()
+std::deque<std::deque<int> > generateRandomPageSequence()
 {
 	rand();
-	std::vector<std::vector<int> > v;
+	std::deque<std::deque<int> > v;
 	for (int i = 0; i < 100; i++) {
-		std::vector<int> a;
+		std::deque<int> a;
 		for (int j = 0; j < 1000; j++) {
 			a.push_back(rand() % 250);
 		}
@@ -19,7 +19,7 @@ std::vector<std::vector<int> > generateRandomPageSequence()
 	return v;
 }
 
-bool checkForMiss(std::vector<int> q, int n) {
+bool checkForMiss(std::deque<int> q, int n) {
 	for (auto e : q) {
 		if (e == n) {
 			return false;
@@ -28,9 +28,9 @@ bool checkForMiss(std::vector<int> q, int n) {
 	return true;
 }
 
-int getMisses(std::vector<std::vector<int> > &seq, unsigned int sequence, unsigned int frameSize) {
+int getMisses(std::deque<std::deque<int> > &seq, unsigned int sequence, unsigned int frameSize) {
 	int misses = 0;
-	std::vector<int> qu;
+	std::deque<int> qu;
 	qu.clear();
 		for (unsigned int j = 0; j < seq.at(sequence).size(); j++) {
 			if (qu.size() > frameSize) {
@@ -38,17 +38,17 @@ int getMisses(std::vector<std::vector<int> > &seq, unsigned int sequence, unsign
 				if (miss) { 
 					misses++;
 				}
-				qu.pop_back();
+				qu.pop_front();
 			}
 			qu.push_back(seq.at(sequence).at(j));
 		}
 	return misses;
 }
 
-std::vector<std::vector<int> > getResults(std::vector<std::vector<int> > s) {
-	std::vector<std::vector<int> > res;
+std::deque<std::deque<int> > getResults(std::deque<std::deque<int> > s) {
+	std::deque<std::deque<int> > res;
 	for (unsigned int i = 0; i < 100; i++) {
-		std::vector<int> subRes;
+		std::deque<int> subRes;
 		for (unsigned int j = 0; j < 100; j++) {
 			subRes.push_back(getMisses(s, j, i));
 		}
@@ -57,7 +57,7 @@ std::vector<std::vector<int> > getResults(std::vector<std::vector<int> > s) {
 	return res;
 }
 
-void displayResults(std::vector<std::vector<int> > r) {
+void displayResults(std::deque<std::deque<int> > r) {
 	int anomalyCounter = 0;
 	std::cout << "Length of memory reference string: 1000" << std::endl;
 	std::cout << "Frames of physical memory: 100" << std::endl;
