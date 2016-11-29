@@ -250,3 +250,6 @@ paket-files/
 # JetBrains Rider
 .idea/
 *.sln.iml
+Belady.sln
+*.vcxproj
+Belady.vcxproj.filters
