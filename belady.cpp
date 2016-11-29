@@ -41,7 +41,7 @@ int getMisses(std::deque<int> &seq, unsigned int sequence) {
 			}
 			qu.push_back(seq.at(j));
 		}
-		std::cout << misses << std::endl;
+		//std::cout << misses << std::endl;
 	return misses;
 }
 
@@ -55,8 +55,6 @@ std::deque<int> getResults(std::deque<int> s) {
 
 void displayResults(std::deque<int> r) {
 	int anomalyCounter = 0;
-	std::cout << "Length of memory reference string: 1000" << std::endl;
-	std::cout << "Frames of physical memory: 100" << std::endl;
 		//
 		for (unsigned int j = 0; j < (r.size()-1); j++) {
 			if (r.at(j) < r.at(j + 1)) {
@@ -66,8 +64,13 @@ void displayResults(std::deque<int> r) {
 				std::cout << "\tPage Faults: " << r.at(j) << " @ Frame Size: " << (j+1) << std::endl;
 				std::cout << "\tPage Faults: " << r.at(j + 1) << " @ Frame Size: " << (j + 2) << std::endl << std::endl;
 			}
-		
+			else{
+			 std::cout <<(j+1)<< ": " <<  r.at(j) << " > " << r.at(j+1) << std::endl;
+			}
+
 	}
+	std::cout << "Length of memory reference string: 1000" << std::endl;
+	std::cout << "Frames of physical memory: 100" << std::endl;
 	std::cout << "Anomaly detected " << anomalyCounter << " times." << std::endl;
 }
 
@@ -76,8 +79,6 @@ int main() {
 	auto sequences = generateRandomPageSequence();
 	auto results = getResults(sequences);
 	displayResults(results);
-	char dummy = 'd';
-	std::cin >> dummy;
 }
 
 
