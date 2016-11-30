@@ -7,11 +7,10 @@
 
 std::deque<int> generateRandomPageSequence()
 {
-	std::random_device rd;
-	std::mt19937 generator(rd());
+	rand();
 		std::deque<int> a;
-		for (int j = 0; j < 1000; j++){ 
-			a.push_back(generator() % 250);
+		for (int j = 0; j < 1000; j++) {
+			a.push_back(rand() % 250);
 		}
 	
 	return a;
@@ -19,7 +18,6 @@ std::deque<int> generateRandomPageSequence()
 
 bool checkForMiss(std::deque<int> q, int n) {
 	for (auto e : q) {
-		//std::cout << q.size() << std::endl; //confirms the q is getting longer
 		if (e == n) {
 			return false;
 		}
