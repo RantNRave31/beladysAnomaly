@@ -79,19 +79,3 @@ int main() {
 	char dummy = 'd';
 	std::cin >> dummy;
 }
-
-
-/*
- *
- * notes from class on 11/28
- *
- * Anomaly only occurs on FIFO
- *
- * break down{
- * 1000 touches of memory, these touches select numbers between 1 and 250
- * Simulate that 1000 length string over 1 frame of memory 
- * Simulate same string over two ... three ... four ... 100 count page faults that occur. 
- * ONLY ONE STRING :)
- * }
- *
- */
