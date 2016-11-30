@@ -4,10 +4,11 @@
 #include <random>
 #include <thread>
 #include <time.h>
+#include <stdlib.h>
 
 std::deque<std::deque<int> > generateRandomPageSequence()
 {
-	rand();
+	srand(time(NULL));
 	std::deque<std::deque<int> > v;
 	for (int i = 0; i < 100; i++) {
 		std::deque<int> a;
@@ -37,10 +38,13 @@ int getMisses(std::deque<std::deque<int> > &seq, unsigned int sequence, unsigned
 			bool miss = checkForMiss(qu, seq.at(sequence).at(j));
 			if (miss) {
 				misses++;
+				qu.pop_front();
+				qu.push_back(seq.at(sequence).at(j));
 			}
-			qu.pop_front();
 		}
-		qu.push_back(seq.at(sequence).at(j));
+		else if(checkForMiss(qu, seq.at(sequence).at(j))){
+			qu.push_back(seq.at(sequence).at(j));	
+		}
 	}
 	return misses;
 }
