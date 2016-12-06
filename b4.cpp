@@ -1,5 +1,5 @@
 #include<iostream>
-#include<queue>
+#include<deque>
 #include<unordered_map>
 #include<vector>
 #include<random>
@@ -18,7 +18,7 @@ int main(){
  int anomalyCounter = 0;
 //seeding random
  srand(time(NULL));
-
+int memoryIterator = 0;
 //for 100 sequences
  for(int i = 0; i < 100; i++){
  //generate a sequence
@@ -47,32 +47,38 @@ int main(){
    std::unordered_map<int,int> memory;
 
 //Impliment FIFO with a std::queue
-   std::queue<int> q;
+   std::deque<int> q;
 
 //For every number in the sequence
    for(int h = 0; h < 1000; h++){
 
 //check whether it is in memory
-    auto found = memory.find(sequence.at(h));
+   bool check = false;
+   for(auto e : q){
+    if(e == sequence.at(h)){check = true;}
+   }
 
 //if it is NOT in memory,
-    if(found == memory.end()){
+    if(check == false){
 
 //and if the size of the queue is greater than the number of pages
     if(q.size() >= j){
 
 //delete the first element from memory
-      memory.erase(q.front());
+      auto iterator = memory.find(q.front());
+      if(iterator != memory.end()){memory.erase(iterator);}
+      //if(memory.find(0) != memory.end()){std::cout << "fuck" << std::endl;}
 
 //Pop the first element off of the queue
-      q.pop();
+      q.pop_front();
      }
 
 //(we fall back into scope of the first if statement) If it is not in memory, insert that element of the sequence into memory
-     memory.insert(std::make_pair(h, sequence.at(h)));
-
+     memory.insert({memoryIterator, sequence.at(h)});
+     memoryIterator++;
+    
 //push it onto the queue
-     q.push(sequence.at(h));
+     q.push_back(sequence.at(h));
 
 //any time we have to insert something into memeory, that counts as a page fault
      faultCounter++;
@@ -80,7 +86,7 @@ int main(){
    }
 
 //If the number of faults from the previous iteration exceeds that of the current iteration,
-   if(faultStorage > faultCounter){
+   if(faultStorage < faultCounter){
 
 //An anomaly happened
     printAnomaly(i, j, faultStorage, faultCounter);
@@ -94,9 +100,8 @@ int main(){
    faultCounter = 0;
 
 //clear out the queue
-   std::queue<int> empty;
-   std::swap(q,empty);
-
+   q.clear();
+   memoryIterator = 0;
 //clear out memeory 
    memory.clear();
 
